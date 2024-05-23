@@ -18,9 +18,9 @@ export class TodoController {
   }
 
   async createTodo(req: Request, res: Response): Promise<void> {
-	const { title, userId, isCompleted, isPrivate = false } = req.body;
+	const { title, userId, userName = '-', isCompleted = false, isPrivate = false } = req.body;
 
-	const newTodo = await this.todoService.addTodo(title, userId, isCompleted, isPrivate);
+	const newTodo = await this.todoService.addTodo(title, userId, userName, isCompleted, isPrivate);
 
 	res.send(newTodo);
   }

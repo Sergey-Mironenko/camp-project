@@ -20,11 +20,12 @@ export default class TodoService {
 	return null;
   }
 
-  async addTodo(title: string, userId: string, isCompleted: boolean, isPprivate: boolean): Promise<TodoType | null> {
+  async addTodo(title: string, userId: string, userName: string, isCompleted: boolean, isPprivate: boolean): Promise<TodoType | null> {
 	const newTodo = await prisma.todo.create({
 	  data: {
 		title,
 	    userId,
+		userName,
 	    isCompleted,
 	    isPprivate,
 	  },
