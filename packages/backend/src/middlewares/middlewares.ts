@@ -1,7 +1,7 @@
-import TodoService from '@/services/todo.service';
+import FindInDbService from '@/services/findInDb.service';
 import { TodoType } from '@/types/todos.type';
 import { Response, Request, NextFunction } from 'express';
-import { prismaModels } from '../types/models.type'
+import { prismaModels } from '../types/models.type';
 
 interface Options {
   id?: 'string',
@@ -12,7 +12,7 @@ interface Options {
 }
 
 export class Middlewares {
-  constructor(private todoService: TodoService) {}
+  constructor(private findInDbService: FindInDbService) {}
 
   async tryCatch(action: any): Promise<(req: Request, res: Response, next: NextFunction) => void> {
 	return async function(req: Request, res: Response, next: NextFunction) {
@@ -39,21 +39,21 @@ export class Middlewares {
   }
 
   async isExist(model: keyof prismaModels): Promise<(req: Request, res: Response, next: NextFunction) => void> {
-	const find = this.todoService.getById;
+	const findExisting = this.findInDbService.getById;
 
 	return async function(req: Request, res: Response, next: NextFunction): Promise<TodoType | void> {
 		const { id } = req.body;
 	
-		const todo = await find(id, model);
+		const item = await findExisting(id, model);
 	
-		if (!todo) {
+		if (!item) {
 		  res.sendStatus(404);
 	
 		  return;
 		}
 		
 		res.locals = {
-		  todo,
+		  item,
 		}
 		
 		next();
@@ -62,5 +62,5 @@ export class Middlewares {
 
 };
 
-const middlewares = new Middlewares(new TodoService());
+const middlewares = new Middlewares(new FindInDbService());
 export default middlewares;

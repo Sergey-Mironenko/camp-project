@@ -1,14 +1,13 @@
 import prisma from '../utils/db';
 import { TodoType } from '@/types/todos.type';
-import { prismaModels } from '../types/models.type'
   
 export default class TodoService {
   async findAll(): Promise<string> {
 	return 'Todos';
   }
 
-  async getById(id: string, model: keyof prismaModels): Promise<TodoType | null> {
-	const todo = await prisma[model].findUnique({
+  async getById(id: string): Promise<TodoType | null> {
+	const todo = await prisma.todo.findUnique({
 	  where: {
 		id
 	  }
