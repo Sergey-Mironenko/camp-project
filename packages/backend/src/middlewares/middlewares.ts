@@ -44,16 +44,16 @@ export class Middlewares {
 	return async function(req: Request, res: Response, next: NextFunction): Promise<TodoType | void> {
 		const { id } = req.body;
 	
-		const item = await findExisting(id, model);
+		const entity = await findExisting(id, model);
 	
-		if (!item) {
+		if (!entity) {
 		  res.sendStatus(404);
 	
 		  return;
 		}
 		
 		res.locals = {
-		  item,
+		  entity,
 		}
 		
 		next();

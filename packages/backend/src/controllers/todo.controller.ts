@@ -12,9 +12,9 @@ export class TodoController {
   }
 
   async getById(_: Request, res: Response): Promise<void> {	
-	const { todo } = res.locals;
+	const { entity } = res.locals;
 
-	res.send(todo);
+	res.send(entity);
   }
 
   async createTodo(req: Request, res: Response): Promise<void> {
