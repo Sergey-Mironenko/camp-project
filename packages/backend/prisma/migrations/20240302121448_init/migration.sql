@@ -2,7 +2,7 @@
 CREATE TABLE "User" (
   "id" TEXT NOT NULL,
   "email" TEXT NOT NULL,
-  "name" TEXT,
+  "name" TEXT NOT NULL,
   "todos" Todo[]
 
   CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -11,6 +11,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Todo" (
   "id" TEXT NOT NULL,
   "userId" TEXT NOT NULL,
+  "userName" TEXT NOT NULL,
   "title" TEXT NOT NULL,
   "isCompleted" BOOLEAN,
   "isPprivate" BOOLEAN,

@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import TodoService from '@/services/todo.service';
+import TodoService from '../services/todo.service';
 
 export class TodoController {
   constructor(private todoService: TodoService) {}
@@ -12,15 +12,15 @@ export class TodoController {
   }
 
   async getById(_: Request, res: Response): Promise<void> {	
-	const { todo } = res.locals;
+	const { entity } = res.locals;
 
-	res.send(todo);
+	res.send(entity);
   }
 
   async createTodo(req: Request, res: Response): Promise<void> {
-	const { title, userId, isCompleted, isPrivate = false } = req.body;
+	const { title, userId, userName = '-', isCompleted = false, isPrivate = false } = req.body;
 
-	const newTodo = await this.todoService.addTodo(title, userId, isCompleted, isPrivate);
+	const newTodo = await this.todoService.addTodo(title, userId, userName, isCompleted, isPrivate);
 
 	res.send(newTodo);
   }

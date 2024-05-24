@@ -1,14 +1,13 @@
 import prisma from '../utils/db';
 import { TodoType } from '@/types/todos.type';
-import { prismaModels } from '../types/models.type'
   
 export default class TodoService {
   async findAll(): Promise<string> {
 	return 'Todos';
   }
 
-  async getById(id: string, model: keyof prismaModels): Promise<TodoType | null> {
-	const todo = await prisma[model].findUnique({
+  async getById(id: string): Promise<TodoType | null> {
+	const todo = await prisma.todo.findUnique({
 	  where: {
 		id
 	  }
@@ -21,11 +20,12 @@ export default class TodoService {
 	return null;
   }
 
-  async addTodo(title: string, userId: string, isCompleted: boolean, isPprivate: boolean): Promise<TodoType | null> {
+  async addTodo(title: string, userId: string, userName: string, isCompleted: boolean, isPprivate: boolean): Promise<TodoType | null> {
 	const newTodo = await prisma.todo.create({
 	  data: {
 		title,
 	    userId,
+		userName,
 	    isCompleted,
 	    isPprivate,
 	  },
