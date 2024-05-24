@@ -1,5 +1,5 @@
-import FindInDbService from '@/services/findInDb.service';
-import { TodoType } from '@/types/todos.type';
+import FindInDbService from '../services/findInDb.service';
+import { TodoType } from '../types/todos.type';
 import { Response, Request, NextFunction } from 'express';
 import { prismaModels } from '../types/models.type';
 
