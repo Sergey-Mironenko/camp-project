@@ -1,23 +1,22 @@
 import * as React from 'react';
+import classNames from 'classnames';
+import { useMediaQuery } from 'react-responsive';
 
-import Button from '~shared/components/button/button.component';
+import Header from '~shared/components/header/reader.component';
+import TodoList from '~shared/components/todoList/todoList.component';
+import { AppStyles } from './app.module.styles';
 
-const App = (): React.ReactNode => {
-	const [count, setCount] = React.useState(0);
-
-	const onIncrease = (): void => {
-		setCount((prev) => {
-			return prev + 1;
-		});
-	};
-
-	return (
-		<>
-			<h1>Todo project</h1>
-			<p>{count}</p>
-			<Button text="Increase" onClick={onIncrease} />
-		</>
-	);
+const App: React.FunctionComponent = () => {
+  const onTablet = useMediaQuery({ maxWidth: 1000 });
+  const onPhone = useMediaQuery({ maxWidth: 500 });
+  return (
+	<main className={classNames(
+	  AppStyles()
+	)}>    
+	  <Header onTablet={onTablet} onPhone={onPhone}/>
+	  <TodoList onTablet={onTablet} onPhone={onPhone}/>
+	</main>
+  );
 };
 
 export default App;
