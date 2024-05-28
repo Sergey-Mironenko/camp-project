@@ -42,6 +42,9 @@
 			],
 			"~/*": [
 				"src/*"
+			],
+			"~utils/*": [
+				"src/shared/utils/*"
 			]
 		}
 	},

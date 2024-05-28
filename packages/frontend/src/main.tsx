@@ -4,9 +4,12 @@ import { PortalProvider } from '@blueprintjs/core';
 import './shared/styles/global-styles.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import Router from './router/router';
+import { HashRouter as RouteProvider } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-	<PortalProvider portalClassName="my-custom-class">
-		<Router />
-	</PortalProvider>,
+  <PortalProvider portalClassName="my-custom-class">
+	<RouteProvider>
+	  <Router />
+	</RouteProvider>
+  </PortalProvider>,
 );
