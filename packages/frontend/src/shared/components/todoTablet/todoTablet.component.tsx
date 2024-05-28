@@ -90,7 +90,7 @@ const TodoTabletCard: React.FunctionComponent<Props> = ({
                   classname={classNames(
                     fieldStyles(onTablet && !onPhone, errors.title && true)
                   )}
-                  error={errors.title}
+                  errors={errors}
                 />
               </label>
 
@@ -109,6 +109,7 @@ const TodoTabletCard: React.FunctionComponent<Props> = ({
                       classname={classNames(
                         checkboxStyles()
                       )}
+                      errors={errors}
                     />
                   </label> 
                 </div>
@@ -125,6 +126,7 @@ const TodoTabletCard: React.FunctionComponent<Props> = ({
                       classname={classNames(
                         checkboxStyles()
                       )}
+                      errors={errors}
                     />
                   </label>    
                 </div>

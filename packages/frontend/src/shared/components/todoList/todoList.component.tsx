@@ -117,7 +117,7 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
                   <FormField
                     name="text"
                     type="title"
-                    error={errors.title}
+                    errors={errors}
                   />
                 </div>
               </div>
@@ -128,6 +128,7 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
                   <FormField
                     name="completed"
                     type="checkbox"
+                    errors={errors}
                   />
                 </div>
                 <div>
@@ -135,6 +136,7 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
                   <FormField
                     name="private"
                     type="checkbox"
+                    errors={errors}
                   />
                 </div>
               </div>

@@ -76,7 +76,7 @@ const TodoDesctopCard: React.FunctionComponent<Props> = ({
                       formFieldStyles(errors.title && touched && true)
                     )}
                     validate={validateTitleDesctop}
-                    error={errors.title}
+                    errors={errors}
                   />
                 </div>
 
@@ -92,6 +92,7 @@ const TodoDesctopCard: React.FunctionComponent<Props> = ({
                       classname={classNames(
                         checkboxStyles()
                       )}
+                      errors={errors}
                     />
                   </label>
                 </div>
@@ -108,6 +109,7 @@ const TodoDesctopCard: React.FunctionComponent<Props> = ({
                       classname={classNames(
                         checkboxStyles()
                       )}
+                      errors={errors}
                     />
                   </label>
                 </div>

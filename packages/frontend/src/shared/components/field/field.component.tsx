@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Field } from 'formik';
+import { Field, FormikErrors } from 'formik';
 
 import { addFormErrorStyles } from './field.styles';
 import classNames from 'classnames';
@@ -10,10 +10,15 @@ type Props = {
   classname?: string,
   errorClassname?: string,
   validate?: (str: string) => string | void
-  error?: string
+  errors: FormikErrors<{
+    id: string;
+    title: string;
+    isCompleted: boolean;
+    isDeleted: boolean;
+}>
 }
 
-const FormField: React.FunctionComponent<Props> = ({ name, type, classname = '', validate, error = '' }) => {
+const FormField: React.FunctionComponent<Props> = ({ name, type, classname = '', validate, errors}) => {
   return (
     <>
       <Field
@@ -23,11 +28,11 @@ const FormField: React.FunctionComponent<Props> = ({ name, type, classname = '',
         validate={validate}
       />
 
-      {type === 'title'} {
+      {type !== 'checkbox'} {
         <span className={classNames(
           addFormErrorStyles()
         )}>
-          {error}
+          {errors[name]}
         </span>
       } 
     </>      
