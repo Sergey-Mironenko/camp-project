@@ -1,18 +1,24 @@
 import * as React from 'react';
 import { Formik, Form, Field } from 'formik';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 import todoSerivce from '~shared/services/todo.service';
 import { useTodoStore } from '~store/todo.store';
 
 import {
   todoListStyles, titleStyles, addButtonStyles, addFormStyles,
-  shadowStyles, tableStyles, tableHeadStyles, rowStyles,
+  tableStyles, tableHeadStyles, rowStyles,
 } from './todoList.styles';
-import { tabletListStyles, TabletFormErrorStyles } from './todoListGadget.styles';
+import { sliderPhone, swiper, slide, swiperContainer, sliderButton} from './todoListGadget.styles';
 import classNames from 'classnames';
 
-import TodoGadgetCard from '../todoGadget/todoGadget.component';
+import TodoPhoneCard from '../todoPhone/todoPhone.component';
+import TodoTabletCard from '../todoTablet/todoTablet.component';
 import TodoDesctopCard from '../todoDesctop/todoDesctop.component';
+
+import FormField from '../field/field.component';
+import { addState } from '../../utils/formStates';
 
 type Props = {
   onTablet: boolean,
@@ -28,21 +34,17 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
   const updateTodo = useTodoStore(state => state.updateTodo);
   const deleteTodo = useTodoStore(state => state.deleteTodo);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const validateTitleDesctop = (str: string) => {
-    if (!str) {
-      return 'Required'
-    } else if (!(/^[a-zA-ZА-Яа-яЁё]*$/.test(str))) {
-      return 'Letters only'
-    } else if (str.length > 12) {
-      return 'Too long'
-    }
-  };
+  const sliderRef = React.useRef(null);
 
-  const validateTitlePhone = (str: string) => {
-    if (!str || !(/^[a-zA-ZА-Яа-яЁё]*$/.test(str)) || str.length > 12) {
-      return '!'
-    }
-  };
+  const handlePrev = React.useCallback(() => {
+    if (!sliderRef.current) return;
+    sliderRef.current.swiper.slidePrev();
+  }, []);
+
+  const handleNext = React.useCallback(() => {
+    if (!sliderRef.current) return;
+    sliderRef.current.swiper.slideNext();
+  }, []);
 
   const handleAdd = async(title: string, isCompleted: boolean, isPrivate: boolean) => {
     setIsLoading(true);
@@ -65,7 +67,9 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
     } 
   };
 
-  const handleUpdate = async(id: string, title: string, isCompleted: boolean, isDeleted: boolean) => {
+  const handleUpdate = async(values: {id: string, title: string, isCompleted: boolean, isDeleted: boolean}) => {
+    const { id, title, isCompleted, isDeleted } = values;
+    
     setIsLoading(true);
 
     try {
@@ -96,17 +100,9 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
         {`${user}'s todos`}
       </h1>
 
-      <div className={classNames(
-        shadowStyles((editingTodoId || isAddingTodo) && true)
-      )}></div>
-
       {isAddingTodo ? (
         <Formik
-          initialValues={{
-            title: '',
-            completed: false,
-            private: false,
-          }}
+          initialValues={addState}
           onSubmit={values => {
             handleAdd(values.title, values.completed, values.private)
           }}
@@ -118,32 +114,27 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
               <div>
                 <label>Title:</label>
                 <div>
-                  <Field
-                    type="text"
-                    name="title"
-                    validate={(!onPhone && !onTablet) ? validateTitleDesctop : validateTitlePhone}
+                  <FormField
+                    name="text"
+                    type="title"
+                    error={errors.title}
                   />
-                  <span className={classNames(
-                    TabletFormErrorStyles()
-                  )}>
-                    {touched.title && errors.title}
-                  </span>
                 </div>
               </div>
   
               <div>
                 <div>
                   <label>Completed:</label>
-                  <Field
-                    type="checkbox"
+                  <FormField
                     name="completed"
+                    type="checkbox"
                   />
                 </div>
                 <div>
                   <label>Private:</label>
-                  <Field
-                    type="checkbox"
+                  <FormField
                     name="private"
+                    type="checkbox"
                   />
                 </div>
               </div>
@@ -164,22 +155,73 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
         </button>
       )}
 
-      {(onTablet || onPhone) && (
+      {(onTablet && onPhone) && (
         <div className={classNames(
-          tabletListStyles(onTablet && !onPhone)
+          sliderPhone()
         )}>
           {todos.map(todo => (
-            <TodoGadgetCard
+            <TodoPhoneCard
               onTablet={onTablet}
               onPhone={onPhone}
               todo={todo}
               editingTodoId={editingTodoId}
               setEditingTodoId={setEditingTodoId}
               handleUpdate={handleUpdate}
-              validateTitle={validateTitlePhone}
               key={todo.id}
             />
           ))}
+        </div>
+      )}
+
+      {(onTablet && !onPhone) && (
+        <div className={classNames(
+          swiperContainer()
+        )}>
+          <button
+            className={classNames(
+              sliderButton(),
+            )}
+            onClick={handlePrev}
+          >
+            {'<'}
+          </button>
+
+          <Swiper
+            className={classNames(
+              swiper()
+            )}
+            spaceBetween={0}
+            slidesPerView={1}
+            ref={sliderRef}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+            
+            {todos.map(todo => (
+              <SwiperSlide key={todo.id} className={classNames(
+                slide()
+              )}>
+                <TodoTabletCard
+                  onTablet={onTablet}
+                  onPhone={onPhone}
+                  todo={todo}
+                  editingTodoId={editingTodoId}
+                  setEditingTodoId={setEditingTodoId}
+                  handleUpdate={handleUpdate}
+                  key={todo.id}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          <button
+            className={classNames(
+              sliderButton(),
+            )}
+            onClick={handleNext}
+          >
+          {'>'}
+          </button>
         </div>
       )}
 
@@ -206,7 +248,6 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
                 editingTodoId={editingTodoId}
                 setEditingTodoId={setEditingTodoId}
                 handleUpdate={handleUpdate}
-                validateTitle={validateTitleDesctop}
                 key={todo.id}
               />
             ))}

@@ -3,16 +3,18 @@ import { THEME } from '~shared/styles/theme';
 
 export const todoListStyles = (): string => {
   return css`
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    margin: 0 auto;
     align-items: center;
     width: 100%;
     margin-bottom: ${THEME.todoList.marginBottom};
   `;
 };
 
+
 export const titleStyles = (isOnPhone: boolean = false): string => {
   return css`
+    text-align: center;
     font-size: ${isOnPhone ? '35px' : '60px'};
     font-weight: ${THEME.todoList.fontWeight};
     color: ${THEME.todoList.textColor};
@@ -57,6 +59,8 @@ export const addButtonStyles = (isOnPhone: boolean = false, isOnTablet: boolean 
       box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4),
       0 1px 8px 0 rgba(0, 0, 0, 0.2);
     }
+    margin: auto;
+    margin-bottom: 10px;
   `;
 };
 
@@ -78,6 +82,7 @@ export const addFormStyles = (isOnPhone: boolean = false, isOnTablet: boolean = 
     width: 900px;
     height: 100px;
     padding: ${THEME.todoList.formDesctopPadding};
+    margin: auto;
     margin-bottom: ${THEME.todoList.formDesctopMarginBottom};
     ${isOnPhone && (
       `width: 280px;
@@ -199,7 +204,9 @@ export const addFormStyles = (isOnPhone: boolean = false, isOnTablet: boolean = 
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4),
         0 ${isOnTablet ? '5px 100px' : '1px 20px'} 0 rgba(0, 0, 0, 0.2);
       }
-    } 
+    }
+
+    z-index: 200;
   `;
 };
 
@@ -213,7 +220,7 @@ export const shadowStyles = (isActive: boolean = false): string => {
     height: 100%;
     background: #000;
     opacity: 0.3;
-    z-index: 3;
+    z-index: 2;
   `;
 };
 
@@ -230,6 +237,7 @@ export const tableStyles = (): string => {
     height: 466px;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4),
     0 0 0 0 rgba(0, 0, 0, 0.2);
+    margin: auto;
   `;
 };
 

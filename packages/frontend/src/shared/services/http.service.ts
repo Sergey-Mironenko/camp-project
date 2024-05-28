@@ -1,7 +1,8 @@
 import axios from 'axios';
+import 'dotenv/config';
 
 export class HttpSerivce {
-  constructor(private baseUrl = "http//localhost:3030", private fetchingService = axios, private apiVersion = 'api') {
+  constructor(private baseUrl = process.env.SERVER_URL, private fetchingService = axios, private apiVersion = 'api') {
     this.baseUrl = baseUrl;
     this.fetchingService = axios;
     this.apiVersion = apiVersion

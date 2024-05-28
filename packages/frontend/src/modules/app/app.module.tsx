@@ -6,6 +6,11 @@ import Header from '~shared/components/header/reader.component';
 import TodoList from '~shared/components/todoList/todoList.component';
 import { AppStyles } from './app.module.styles';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+
 const App: React.FunctionComponent = () => {
   const onTablet = useMediaQuery({ maxWidth: 1000 });
   const onPhone = useMediaQuery({ maxWidth: 500 });

@@ -5,13 +5,15 @@ import { Formik, Form, Field } from 'formik';
 import { TodoType } from '~shared/services/types';
 
 import { rowStyles, lastThStyles, buttonStyles, formContainerStyles, formStyles, formFieldStyles, checkboxContainerStyles, checkboxStyles, errorStyles } from './todoDesctop.styles';
+import FormField from '../field/field.component';
+
+import { validateTitleDesctop } from '../../services/validation.service';
 
 type Props = {
   todo: TodoType,
   editingTodoId: string,
   setEditingTodoId: (id: string) => void,
-  handleUpdate: (id: string, title: string, isCompleted: boolean, isDeleted: boolean) => void,
-  validateTitle: (str: string) => string;
+  handleUpdate: (values: {id: string, title: string, isCompleted: boolean, isDeleted: boolean}) => void,
 }
 
 const TodoDesctopCard: React.FunctionComponent<Props> = ({
@@ -19,7 +21,6 @@ const TodoDesctopCard: React.FunctionComponent<Props> = ({
   editingTodoId,
   setEditingTodoId,
   handleUpdate,
-  validateTitle
 }) => {
   return (
 	<tr
@@ -52,13 +53,12 @@ const TodoDesctopCard: React.FunctionComponent<Props> = ({
         )}>
           <Formik
             initialValues={{
+              id: todo.id,
               title: todo.title,
-              completed: todo.isCompleted,
-              delete: false,
+              isCompleted: todo.isCompleted,
+              isDeleted: false,
             }}
-            onSubmit={values => {
-              handleUpdate(todo.id, values.title, values.completed, values.delete)
-            }}
+            onSubmit={handleUpdate}
           >
             {({ errors, touched }) => (
               <Form className={classNames(
@@ -69,52 +69,47 @@ const TodoDesctopCard: React.FunctionComponent<Props> = ({
                 </span>
 
                 <div>
-                  <Field
-                    className={classNames(
+                  <FormField
+                    name="text"
+                    type="title"
+                    classname={classNames(
                       formFieldStyles(errors.title && touched && true)
                     )}
-                    name="title"
-                    type="text"
-                    validate={validateTitle}
+                    validate={validateTitleDesctop}
+                    error={errors.title}
                   />
-
-                  <span className={classNames(
-                    errorStyles()
-                  )}>
-                    {errors.title}
-                  </span>
                 </div>
 
                 <div className={classNames(
                   checkboxContainerStyles()
                 )}>
-                  <span>
+                  <label>
                     Completed?
-                  </span>
 
-                  <Field
-                    className={classNames(
-                      checkboxStyles()
-                    )}
-                    name="completed"
-                    type="checkbox"
-                  />
+                    <FormField
+                      name="completed"
+                      type="checkbox"
+                      classname={classNames(
+                        checkboxStyles()
+                      )}
+                    />
+                  </label>
                 </div>
 
                 <div className={classNames(
                   checkboxContainerStyles()
                 )}>
-                  <span>
+                  <label>
                     Delete?
-                  </span>
 
-                  <Field
-                    className={classNames(
-                      checkboxStyles()
-                    )}
-                    name="delete"
-                    type="checkbox"
-                  />
+                    <FormField
+                      name="delete"
+                      type="checkbox"
+                      classname={classNames(
+                        checkboxStyles()
+                      )}
+                    />
+                  </label>
                 </div>
 
                 <button

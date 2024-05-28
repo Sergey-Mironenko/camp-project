@@ -106,11 +106,12 @@ export const checkboxContainerStyles = (): string => {
   
 export const checkboxStyles = (): string => {
   return css`
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     background: ${THEME.todoList.textColor};
     border: 2px solid rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    margin-left: 4px;
 
     &:checked {
       background: ${THEME.todoList.textColor};

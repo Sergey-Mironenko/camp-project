@@ -4,7 +4,10 @@ import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { TodoType } from '~shared/services/types';
 
-import { rowStyles, containerStyles, buttonStyles, formStyles, rowFormStyles, fieldContainerStyles, fieldStyles, errorStyles, checkboxContainerStyles, checkboxStyles } from './todoGadget.styles';
+import { rowStyles, containerStyles, buttonStyles, formStyles, rowFormStyles, fieldContainerStyles, fieldStyles, errorStyles, checkboxContainerStyles, checkboxStyles } from './todoPhone.styles';
+import FormField from '../field/field.component';
+
+import { validateTitlePhone } from '../../services/validation.service';
 
 type Props = {
   onTablet: boolean,
@@ -12,18 +15,16 @@ type Props = {
   todo: TodoType,
   editingTodoId: string,
   setEditingTodoId: (id: string) => void,
-  handleUpdate: (id: string, title: string, isCompleted: boolean, isDeleted: boolean) => void,
-  validateTitle: (str: string) => string;
+  handleUpdate: (values: { id: string, title: string, isCompleted: boolean, isDeleted: boolean }) => void,
 }
 
-const TodoGadgetCard: React.FunctionComponent<Props> = ({
+const TodoTabletCard: React.FunctionComponent<Props> = ({
   onTablet,
   onPhone,
   todo,
   editingTodoId,
   setEditingTodoId,
   handleUpdate,
-  validateTitle
 }) => {
   return (
 	  <div
@@ -71,13 +72,12 @@ const TodoGadgetCard: React.FunctionComponent<Props> = ({
         )}>
           <Formik
             initialValues={{
+              id: todo.id,
               title: todo.title,
-              completed: todo.isCompleted,
-              delete: false,
+              isCompleted: todo.isCompleted,
+              isDeleted: false,
             }}
-            onSubmit={values => {
-              handleUpdate(todo.id, values.title, values.completed, values.delete)
-            }}
+            onSubmit={handleUpdate}
           >
             {({ errors, touched }) => (
               <Form className={classNames(
@@ -91,20 +91,15 @@ const TodoGadgetCard: React.FunctionComponent<Props> = ({
                   <div className={classNames(
                     fieldContainerStyles(onTablet && !onPhone)
                   )}>
-                    <Field
-                      className={classNames(
-                        fieldStyles(onTablet && !onPhone, errors.title && true)
-                      )}
+                    <FormField
                       name="title"
                       type="text"
-                      validate={validateTitle}
+                      classname={classNames(
+                        fieldStyles(onTablet && !onPhone, errors.title && true)
+                      )}
+                      validate={validateTitlePhone}
+                      error={errors.title}
                     />
-
-                    <span className={classNames(
-                      errorStyles()
-                    )}>
-                      {errors.title}
-                    </span>
                   </div>
                 </div>
 
@@ -116,12 +111,12 @@ const TodoGadgetCard: React.FunctionComponent<Props> = ({
                       Completed?
                     </span>
 
-                    <Field
-                      className={classNames(
-                        checkboxStyles(onTablet && !onPhone)
-                      )}
+                    <FormField
                       name="completed"
                       type="checkbox"
+                      classname={classNames(
+                        checkboxStyles(onTablet && !onPhone)
+                      )}
                     />
                   </div>
 
@@ -132,12 +127,12 @@ const TodoGadgetCard: React.FunctionComponent<Props> = ({
                       Delete?
                     </span>
 
-                    <Field
-                      className={classNames(
-                        checkboxStyles(onTablet && !onPhone)
-                      )}
+                    <FormField
                       name="delete"
                       type="checkbox"
+                      classname={classNames(
+                        checkboxStyles(onTablet && !onPhone)
+                      )}
                     />
                   </div>
                 </div>
@@ -159,4 +154,4 @@ const TodoGadgetCard: React.FunctionComponent<Props> = ({
   );
 };
 
-export default TodoGadgetCard;
+export default TodoTabletCard;

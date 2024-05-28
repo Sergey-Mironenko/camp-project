@@ -80,7 +80,7 @@ export const THEME = {
   },
 
   todoGadget: {
-    paddingTablet: '0 10px',
+    paddingTablet: '10px',
     paddingPhone: '0 2px 0 5px',
 
     containerTabletMarginTop: '6px',
@@ -98,8 +98,10 @@ export const THEME = {
 
     errorGadgetPaddingLeft: '5px',
     errorGadgetFontWeight: '300',
-    errorGadgetPaddingLeft: '5px',
-    errorGadgetFontWeight: '300',
     errorGadgetFontSize: '18px',
   },
+
+  todoTablet: {
+    margin: '10px',
+  }
 }
