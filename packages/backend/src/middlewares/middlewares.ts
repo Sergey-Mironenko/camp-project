@@ -47,13 +47,13 @@ export class Middlewares {
 	}
   }
 
-  async isExist(model: keyof prismaModels): Promise<(req: Request, res: Response, next: NextFunction) => void> {
+  async isExist<T>(model: keyof prismaModels): Promise<(req: Request, res: Response, next: NextFunction) => void> {
 	const findExisting = this.findInDbService.getById;
 
 	return async function(req: Request, res: Response, next: NextFunction): Promise<TodoType | UserType | void> {
 		const { id } = req.body;
 	
-		const entity = await findExisting(id, model);
+		const entity = await findExisting<T>(id, model);
 	
 		if (!entity) {
 		  res.sendStatus(404);

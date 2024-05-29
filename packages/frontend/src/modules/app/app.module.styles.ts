@@ -9,6 +9,7 @@ export const AppStyles = (): string => {
     font-style: normal;
     color: ${THEME.primaryTextColor};
     background: ${THEME.baсkgroundColor};
+    height: 100vh;
     min-height: '100vh';
     display: flex;
     flex-direction: column;

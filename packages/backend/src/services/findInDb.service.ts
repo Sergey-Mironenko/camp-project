@@ -4,8 +4,8 @@ import { prismaModels } from '../types/models.type'
 import { UserType } from '@/types/user.type';
   
 export default class FindInDbService {
-  async getById(id: string, model: keyof prismaModels): Promise<TodoType | UserType | null> {
-	const entity = await (prisma[model] as TodoType | UserType | null).findUnique({
+  async getById<T>(id: string, model: keyof prismaModels): Promise<T | null> {
+	const entity = await (prisma[model] as T).findUnique({
 	  where: {
 		id
 	  }

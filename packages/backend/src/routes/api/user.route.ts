@@ -2,6 +2,7 @@ import { Router } from 'express';
 import userController from '@/controllers/user.controller';
 import middlewares from '../../middlewares/middlewares';
 import authMiddlewares from '@/middlewares/auth.middleware';
+import { UserType } from '@/types/user.type';
 
 const userRouter: Router = Router();
 
@@ -43,7 +44,7 @@ userRouter.post(
   '/update',
   middlewares.tryCatch.bind(middlewares),
   authMiddlewares.checkAuthorization,
-  middlewares.isExist.bind(middlewares),
+  middlewares.isExist.bind(middlewares)<UserType>,
   middlewares.validator.bind(middlewares, {name: 'string', email: 'string', password: 'string'}),
   userController.verifyUser.bind(userController),
 );

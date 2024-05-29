@@ -13,6 +13,8 @@ type Props = {
   errors: FormikErrors<{
     id: string;
     title: string;
+    email: string;
+    password: string;
     isCompleted: boolean;
     isDeleted: boolean;
 }>

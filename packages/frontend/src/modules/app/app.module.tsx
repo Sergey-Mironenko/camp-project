@@ -3,13 +3,8 @@ import classNames from 'classnames';
 import { useMediaQuery } from 'react-responsive';
 
 import Header from '~shared/components/header/reader.component';
-import TodoList from '~shared/components/todoList/todoList.component';
 import { AppStyles } from './app.module.styles';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
-import 'swiper/css';
+import Router from '~router/router';
 
 const App: React.FunctionComponent = () => {
   const onTablet = useMediaQuery({ maxWidth: 1000 });
@@ -19,7 +14,8 @@ const App: React.FunctionComponent = () => {
 	  AppStyles()
 	)}>    
 	  <Header onTablet={onTablet} onPhone={onPhone}/>
-	  <TodoList onTablet={onTablet} onPhone={onPhone}/>
+	  
+	  <Router onTablet={onTablet} onPhone={onPhone}/>
 	</main>
   );
 };
