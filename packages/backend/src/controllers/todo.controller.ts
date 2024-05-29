@@ -4,9 +4,10 @@ import TodoService from '../services/todo.service';
 export class TodoController {
   constructor(private todoService: TodoService) {}
 
-  async getAllTodo(_: Request, res: Response): Promise<void> {
+  async getAllTodo(req: Request, res: Response): Promise<void> {
+	const { id } = req.body;
 
-	const todos = await this.todoService.findAll();
+	const todos = await this.todoService.findAll(id);
 
 	res.send(todos);
   }

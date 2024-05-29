@@ -14,18 +14,23 @@ datasource db {
 }
 
 model User {
-  id    String     @id @default(uuid())
-  email String  @unique
+  id    String  @id @default(uuid())
   name  String
+  email String  @unique
+  password String
+  isActivated Boolean @default(false)
+  isVerified Boolean @default(false)
+  activationToken String @unique @default(uuid())
+  verificationToken String @unique @default(uuid())
   todos Todo[]
 
   @@map("users")
 }
 
 model Todo {
-  id           String     @id @default(uuid())
+  id           String  @id @default(uuid())
   userId       String
-  userName     String 
+  userName     String  @default("-")
   title        String 
   isCompleted  Boolean @default(false)
   isPprivate   Boolean @default(false)

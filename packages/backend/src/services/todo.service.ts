@@ -2,8 +2,29 @@ import prisma from '../utils/db';
 import { TodoType } from '@/types/todos.type';
   
 export default class TodoService {
-  async findAll(): Promise<string> {
-	return 'Todos';
+  async findAll(userId: string): Promise<TodoType[] | null> {
+	const todos = prisma.todo.findMany({
+	  where: {
+		OR: [
+		  {
+			isPprivate: {
+			  equals: false,
+			},
+		  },
+		  {
+			userId: {
+			  equals: userId,
+			},
+		  },
+		]
+	  }
+	});
+
+	if (todos) {
+		return todos;
+	  }
+	  
+	  return null;
   }
 
   async getById(id: string): Promise<TodoType | null> {
@@ -45,7 +66,11 @@ export default class TodoService {
 	  }
 	});
 
-	return newTodo;
+	if (newTodo) {
+	  return newTodo;
+	}
+
+	return null;
   };
 
   async deleteTodo(id: string): Promise<TodoType | null> {
@@ -55,6 +80,10 @@ export default class TodoService {
 	  },
 	});
 
-	return newTodo;
+	if (newTodo) {
+	  return newTodo;
+	}
+
+	return null;
   };
 }

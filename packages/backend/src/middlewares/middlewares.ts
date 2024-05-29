@@ -2,6 +2,7 @@ import FindInDbService from '../services/findInDb.service';
 import { TodoType } from '../types/todos.type';
 import { Response, Request, NextFunction } from 'express';
 import { prismaModels } from '../types/models.type';
+import { UserType } from '@/types/user.type';
 
 interface Options {
   id?: 'string',
@@ -9,6 +10,14 @@ interface Options {
   title?: 'string',
   isPrivate?: 'boolean',
   isCompleted?: 'boolean',
+
+  name?: 'string',
+  email?: 'string',
+  password?: 'string',
+  isActivated?: 'boolean',
+  isVerified?: 'boolean',
+  activationToken?: 'string',
+  verificationToken?: 'string',
 }
 
 export class Middlewares {
@@ -41,7 +50,7 @@ export class Middlewares {
   async isExist(model: keyof prismaModels): Promise<(req: Request, res: Response, next: NextFunction) => void> {
 	const findExisting = this.findInDbService.getById;
 
-	return async function(req: Request, res: Response, next: NextFunction): Promise<TodoType | void> {
+	return async function(req: Request, res: Response, next: NextFunction): Promise<TodoType | UserType | void> {
 		const { id } = req.body;
 	
 		const entity = await findExisting(id, model);

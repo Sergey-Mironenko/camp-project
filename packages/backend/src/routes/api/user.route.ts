@@ -1,12 +1,51 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import userController from '@/controllers/user.controller';
+import middlewares from '../../middlewares/middlewares';
+import authMiddlewares from '@/middlewares/auth.middleware';
 
-const router: Router = Router();
+const userRouter: Router = Router();
 
-// @route   POST api/user
-// @desc    Register user given their email and password, returns the token upon successful registration
-// @access  Public
-router.post('/register', async (_: Request, res: Response) => {
-	res.send('Add registration logic there');
-});
+userRouter.post(
+  '/register',
+  middlewares.tryCatch.bind(middlewares),
+  middlewares.validator.bind(middlewares, { name: 'string', email: 'string', password: 'string' }),
+  userController.createUser.bind(userController),
+);
 
-export default router;
+userRouter.get(
+  '/activate/:activationToken',
+  middlewares.tryCatch.bind(middlewares),
+  userController.activateUser.bind(userController),
+);
+
+userRouter.post(
+  '/login',
+  middlewares.tryCatch.bind(middlewares),
+  authMiddlewares.checkAuthorization,
+  middlewares.validator.bind(middlewares, { email: 'string', password: 'string' }),
+  userController.verifyUser.bind(userController),
+);
+
+userRouter.post(
+  '/verify',
+  middlewares.tryCatch.bind(middlewares),
+  middlewares.validator.bind(middlewares, { email: 'string' }),
+  userController.verifyUser.bind(userController),
+);
+
+userRouter.get(
+  '/reset/:verificationToken',
+  middlewares.tryCatch.bind(middlewares),
+  userController.resetPassword.bind(userController),
+);
+
+userRouter.post(
+  '/update',
+  middlewares.tryCatch.bind(middlewares),
+  authMiddlewares.checkAuthorization,
+  middlewares.isExist.bind(middlewares),
+  middlewares.validator.bind(middlewares, {name: 'string', email: 'string', password: 'string'}),
+  userController.verifyUser.bind(userController),
+);
+
+export default userRouter;
