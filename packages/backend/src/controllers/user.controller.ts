@@ -86,19 +86,15 @@ export class UserController {
   async verifyUser(req: Request, res: Response): Promise<void> {
     const { email } = req.body;
 
-    const checkedUser = await this.userService.getByEmail(email);
+    const user = await this.userService.getByEmail(email);
 
-    if (checkedUser) {
+    if (!user) {
       res.send(404).json({ message: 'No user with such email'});
 
       return;
     }
 
-    const user = await this.userService.verifyUser(email);
-
-    if (user) {
-      await this.emailService.sendEmail(email, user.verificationToken as string, 'Reset password');
-    }
+    await this.emailService.sendEmail(email, user?.verificationToken as string, 'Reset password');
        
     res.sendStatus(200).json({ message: 'Email has been sent'});
   }
