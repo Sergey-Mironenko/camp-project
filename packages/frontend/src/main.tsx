@@ -5,11 +5,12 @@ import './shared/styles/global-styles.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import Router from './router/router';
 import { HashRouter as RouteProvider } from 'react-router-dom';
+import App from '~modules/app/app.module';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <PortalProvider portalClassName="my-custom-class">
 	<RouteProvider>
-	  <Router />
+	  <App/>
 	</RouteProvider>
   </PortalProvider>,
 );

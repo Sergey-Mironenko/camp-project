@@ -4,3 +4,7 @@ export const addState = {
   private: false,
 };
 
+export const loginState = {
+  email: '',
+  password: '',
+};

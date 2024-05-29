@@ -70,8 +70,8 @@ const TodoDesctopCard: React.FunctionComponent<Props> = ({
 
                 <div>
                   <FormField
-                    name="text"
-                    type="title"
+                    name="title"
+                    type="text"
                     classname={classNames(
                       formFieldStyles(errors.title && touched && true)
                     )}
