@@ -117,9 +117,9 @@ export class UserController {
   }
 
   async updateData(req: Request, res: Response): Promise<void> {
-    const { id, name, email, password } = req.body;
+    const { id, name, password } = req.body;
 
-    const user = await this.userService.updateUser(id, name, email, password);
+    const user = await this.userService.updateUser(id, name, password);
        
     res.send(user);
   }

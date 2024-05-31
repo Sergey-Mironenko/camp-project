@@ -14,6 +14,7 @@ class TodoService extends HttpSerivce {
   getTodoById(fields) {
     return this.post({
       url: 'get',
+      data: {...fields},
     })
   }
 

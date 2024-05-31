@@ -20,13 +20,15 @@ import TodoDesctopCard from '../todoDesctop/todoDesctop.component';
 import FormField from '../field/field.component';
 import { addState } from '../../utils/formStates';
 
+import { useUsersStore } from '~store/user.store';
+
 type Props = {
   onTablet: boolean,
   onPhone: boolean,
 }
 
 const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
-  const [user, setUser] = React.useState('User');
+  const user = useUsersStore(state => state.user);
   const [editingTodoId, setEditingTodoId] = React.useState<string | null>(null);
   const [isAddingTodo, setIsAddingTodo] = React.useState<boolean>(false);
   const todos = useTodoStore(state => state.todos);
@@ -97,7 +99,7 @@ const TodoList: React.FunctionComponent<Props> = ({ onTablet, onPhone }) => {
       <h1 className={classNames(
         titleStyles(onPhone)
       )}>
-        {`${user}'s todos`}
+        {`${user.name}'s todos`}
       </h1>
 
       {isAddingTodo ? (
