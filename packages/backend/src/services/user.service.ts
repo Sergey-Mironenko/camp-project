@@ -146,14 +146,13 @@ export default class UserService {
     return user;
   };
 
-  async updateUser(id: string, name: string, email: string, password: string): Promise<UserType | null> {
+  async updateUser(id: string, name: string, password: string): Promise<UserType | null> {
     const user = await prisma.user.update({
       where: {
         id,
       },
       data: {
         name,
-        email,
         password,
       }
     });

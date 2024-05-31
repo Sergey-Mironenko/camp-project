@@ -40,6 +40,9 @@ export const logoStyles = (onPhone: boolean = false): string => {
 
 export const buttonStyles = (onPhone: boolean = false): string => {
   return css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: ${THEME.fontFamily};
     font-weight: ${THEME.secondaryFontWeight};
     font-size: ${onPhone ? THEME.header.buttonGadgetFontSize : THEME.header.bttonDesctopFontSize};
@@ -52,12 +55,15 @@ export const buttonStyles = (onPhone: boolean = false): string => {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    text-underline: none;
     
     transition: box-shadow 0.3s;
 
     &:hover {
       box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4),
       0 5px 100px 0 rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+      color: ${THEME.secondaryTextColor};
     }
   `;
 };
